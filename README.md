@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍳 ResepKu
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js_15-black?style=flat-square&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed_on_Vercel-000?style=flat-square&logo=vercel)
+![Day](https://img.shields.io/badge/100_Days_Challenge-Day_04-orange?style=flat-square)
 
-First, run the development server:
+> Jelajahi ribuan resep dari seluruh dunia — dari yang simpel sampai yang chef banget.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Fitur
+
+- 🔀 Resep random setiap kali halaman dibuka
+- 🔍 Cari resep berdasarkan nama
+- 🏷️ Filter berdasarkan kategori (Beef, Chicken, Dessert, dll)
+- 📖 Halaman detail lengkap — bahan, langkah memasak, video YouTube
+- 💀 Loading skeleton saat data dimuat
+
+## 🛠️ Tech Stack
+
+| Teknologi | Kegunaan |
+|---|---|
+| Next.js 15 (App Router) | Framework utama |
+| TypeScript | Type safety |
+| Tailwind CSS v4 | Styling |
+| TheMealDB API | Sumber data resep (free, no API key) |
+| Vercel | Deployment |
+
+## 📁 Struktur Folder
+
+```
+app/
+  page.tsx                  # Halaman utama
+  recipes/[id]/
+    page.tsx                # Halaman detail resep
+components/
+  recipe/
+    RecipeCard.tsx          # Card resep dengan overlay
+    RecipeGrid.tsx          # Grid + search + filter
+    SearchBar.tsx           # Search input
+    CategoryFilter.tsx      # Filter kategori
+  ui/
+    Skeleton.tsx            # Loading skeleton
+hooks/
+  useMeals.ts               # Custom hook data fetching
+lib/
+  mealdb.ts                 # API layer TheMealDB
+types/
+  meal.ts                   # TypeScript types + helper
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Jalankan Lokal
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+git clone https://github.com/Mucaru/day-04-recipe-app.git
+cd day-04-recipe-app
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Buka `http://localhost:3000`
 
-## Learn More
+## 🌐 Live Demo
 
-To learn more about Next.js, take a look at the following resources:
+**[day-04-recipe-app.vercel.app](https://day-04-recipe-app.vercel.app)**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Bagian dari tantangan [100 Hari 100 Web App](https://github.com/Mucaru) · Day 04 of 100
