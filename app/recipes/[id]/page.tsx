@@ -43,12 +43,13 @@ export default async function RecipeDetailPage({ params }: Props) {
       {/* Hero Image Full Width */}
       <div className="relative w-full h-72 md:h-96">
         <Image
-          src={meal.strMealThumb}
-          alt={meal.strMeal}
-          fill
-          className="object-cover"
-          priority
-        />
+        src={meal.strMealThumb}
+        alt={meal.strMeal}
+        fill
+        className="object-cover"
+        priority
+        sizes="100vw"
+      />
         {/* Gradient overlay bawah */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 

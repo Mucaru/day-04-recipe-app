@@ -1,9 +1,13 @@
-import { RecipeGrid } from "@/components/recipe/RecipeGrid";
+import dynamic from "next/dynamic";
+
+const RecipeGrid = dynamic(
+  () => import("@/components/recipe/RecipeGrid").then((m) => m.RecipeGrid),
+  { ssr: false }
+);
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Hero */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 pt-8 pb-6">
           <div className="flex flex-col items-center text-center mb-6">
@@ -20,8 +24,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
-      {/* Content */}
       <div className="max-w-6xl mx-auto px-4 py-6">
         <RecipeGrid />
       </div>
