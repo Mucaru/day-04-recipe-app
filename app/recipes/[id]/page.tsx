@@ -3,6 +3,7 @@ import { getMealById } from "@/lib/mealdb";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { RelatedRecipes } from "@/components/recipe/RelatedRecipe";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -144,6 +145,8 @@ export default async function RecipeDetailPage({ params }: Props) {
             </a>
           </section>
         )}
+        {/* Related Recipes */}
+        <RelatedRecipes category={meal.strCategory} currentId={meal.idMeal} />
       </div>
     </main>
   );
