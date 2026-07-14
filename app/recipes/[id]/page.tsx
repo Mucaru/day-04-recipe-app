@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RelatedRecipes } from "@/components/recipe/RelatedRecipe";
+import { ShareButton } from "@/components/ui/ShareButton";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -145,6 +146,10 @@ export default async function RecipeDetailPage({ params }: Props) {
             </a>
           </section>
         )}
+        {/* Share */}
+        <section className="flex items-center gap-3">
+          <ShareButton />
+        </section>
         {/* Related Recipes */}
         <RelatedRecipes category={meal.strCategory} currentId={meal.idMeal} />
       </div>
