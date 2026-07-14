@@ -14,7 +14,7 @@ interface UseMealsReturn {
   searchQuery: string;
 }
 
-export function useMeals(): UseMealsReturn {
+export function useMeals(externalQuery?: string): UseMealsReturn {
   const [meals, setMeals] = useState<MealSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -64,9 +64,18 @@ export function useMeals(): UseMealsReturn {
     }
   }, []);
 
+  // Sync external query dari hero search
   useEffect(() => {
-    loadRandom();
-  }, [loadRandom]);
+    if (externalQuery !== undefined) {
+      search(externalQuery);
+    }
+  }, [externalQuery, search]);
+
+  useEffect(() => {
+    if (externalQuery === undefined) {
+      loadRandom();
+    }
+  }, [loadRandom, externalQuery]);
 
   return { meals, isLoading, error, search, filterByCategory, activeCategory, searchQuery };
 }

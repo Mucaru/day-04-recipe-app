@@ -9,8 +9,13 @@ import { getCategories } from "@/lib/mealdb";
 import { useEffect, useState } from "react";
 import { Category } from "@/types/meal";
 
-export function RecipeGrid() {
-  const { meals, isLoading, error, search, filterByCategory, activeCategory, searchQuery } = useMeals();
+interface Props {
+  hideSearch?: boolean;
+  externalQuery?: string;
+}
+
+export function RecipeGrid({ hideSearch = false, externalQuery }: Props) {
+  const { meals, isLoading, error, search, filterByCategory, activeCategory, searchQuery } = useMeals(externalQuery);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -18,18 +23,17 @@ export function RecipeGrid() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      {/* Search */}
-      <SearchBar onSearch={search} initialValue={searchQuery} />
+    <div className="space-y-5">
+      {!hideSearch && (
+        <SearchBar onSearch={search} initialValue={searchQuery} />
+      )}
 
-      {/* Category Filter */}
       <CategoryFilter
         categories={categories}
         active={activeCategory}
         onSelect={filterByCategory}
       />
 
-      {/* Status */}
       {!isLoading && !error && meals.length > 0 && (
         <p className="text-sm text-gray-400">
           {searchQuery
@@ -40,14 +44,12 @@ export function RecipeGrid() {
         </p>
       )}
 
-      {/* Error */}
       {error && (
         <div className="text-center py-12">
           <p className="text-gray-500">{error}</p>
         </div>
       )}
 
-      {/* Grid */}
       {isLoading ? (
         <SkeletonGrid />
       ) : meals.length === 0 ? (

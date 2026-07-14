@@ -34,3 +34,10 @@ body {
     display: none;
   }
 }
+
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
