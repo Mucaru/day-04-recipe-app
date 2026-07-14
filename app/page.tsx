@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { SearchBar } from "@/components/recipe/SearchBar";
+import Link from "next/link";
 
 const RecipeGrid = dynamic(
   () => import("@/components/recipe/RecipeGrid").then((m) => m.RecipeGrid),
@@ -20,10 +21,19 @@ export default function HomePage() {
         <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-amber-200 rounded-full opacity-20 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-6xl mx-auto px-4 pt-10 pb-8">
+          {/* Brand */}
           <div className="flex items-center justify-center gap-2 mb-5">
             <span className="text-2xl">🍳</span>
             <span className="text-lg font-bold text-orange-500 tracking-tight">ResepKu</span>
+            <Link
+              href="/favorites"
+              className="ml-3 inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-orange-500 bg-white/80 border border-gray-200 px-3 py-1.5 rounded-full transition"
+            >
+              ❤️ Favorit
+            </Link>
           </div>
+
+          
 
           <div className="text-center mb-7">
             <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-3 leading-tight">
