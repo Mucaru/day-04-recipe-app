@@ -2,7 +2,7 @@
 
 import { getMealsByCategory, getRandomMeals, searchMeals } from "@/lib/mealdb";
 import { MealSummary } from "@/types/meal";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseMealsReturn {
   meals: MealSummary[];
@@ -20,12 +20,20 @@ export function useMeals(externalQuery?: string): UseMealsReturn {
   const [error, setError] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const initialized = useRef(false);
 
-  const loadRandom = useCallback(async () => {
+  const fetchMeals = useCallback(async (query: string, category: string) => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await getRandomMeals(12);
+      let data: MealSummary[] = [];
+      if (query.trim()) {
+        data = await searchMeals(query);
+      } else if (category !== "All") {
+        data = await getMealsByCategory(category);
+      } else {
+        data = await getRandomMeals(12);
+      }
       setMeals(data);
     } catch {
       setError("Gagal memuat resep. Coba lagi.");
@@ -34,48 +42,34 @@ export function useMeals(externalQuery?: string): UseMealsReturn {
     }
   }, []);
 
-  const search = useCallback(async (query: string) => {
-    setSearchQuery(query);
-    setActiveCategory("All");
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = query.trim() ? await searchMeals(query) : await getRandomMeals(12);
-      setMeals(data);
-    } catch {
-      setError("Gagal mencari resep. Coba lagi.");
-    } finally {
-      setIsLoading(false);
+  // Init — load random sekali saat mount
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      fetchMeals("", "All");
     }
-  }, []);
-
-  const filterByCategory = useCallback(async (category: string) => {
-    setActiveCategory(category);
-    setSearchQuery("");
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = category === "All" ? await getRandomMeals(12) : await getMealsByCategory(category);
-      setMeals(data);
-    } catch {
-      setError("Gagal memuat kategori. Coba lagi.");
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  }, [fetchMeals]);
 
   // Sync external query dari hero search
   useEffect(() => {
-    if (externalQuery !== undefined) {
-      search(externalQuery);
-    }
-  }, [externalQuery, search]);
+    if (!initialized.current) return;
+    if (externalQuery === undefined) return;
+    setSearchQuery(externalQuery);
+    setActiveCategory("All");
+    fetchMeals(externalQuery, "All");
+  }, [externalQuery, fetchMeals]);
 
-  useEffect(() => {
-    if (externalQuery === undefined) {
-      loadRandom();
-    }
-  }, [loadRandom, externalQuery]);
+  const search = useCallback((query: string) => {
+    setSearchQuery(query);
+    setActiveCategory("All");
+    fetchMeals(query, "All");
+  }, [fetchMeals]);
+
+  const filterByCategory = useCallback((category: string) => {
+    setActiveCategory(category);
+    setSearchQuery("");
+    fetchMeals("", category);
+  }, [fetchMeals]);
 
   return { meals, isLoading, error, search, filterByCategory, activeCategory, searchQuery };
 }
