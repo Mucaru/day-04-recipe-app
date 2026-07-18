@@ -1,7 +1,7 @@
 "use client";
 
 import { RecipeCard } from "@/components/recipe/RecipeCard";
-import { useFavorites } from "@/hooks/useFavorites";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import Link from "next/link";
 
 export default function FavoritesPage() {
@@ -9,13 +9,9 @@ export default function FavoritesPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 py-5 flex items-center gap-4">
-          <Link
-            href="/"
-            className="text-sm text-gray-400 hover:text-orange-500 transition"
-          >
+          <Link href="/" className="text-sm text-gray-400 hover:text-orange-500 transition">
             ← Kembali
           </Link>
           <div>
@@ -45,7 +41,7 @@ export default function FavoritesPage() {
               href="/"
               className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-6 py-3 rounded-xl transition"
             >
-              Jelajahi Resep
+              🍳 Jelajahi Resep
             </Link>
           </div>
         ) : (

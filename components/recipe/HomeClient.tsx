@@ -1,20 +1,20 @@
 "use client";
 
-import { useState, Suspense, lazy } from "react";
+import { useState } from "react";
 import { SearchBar } from "@/components/recipe/SearchBar";
-import { SkeletonGrid } from "@/components/ui/Skeleton";
+import { RecipeGrid } from "@/components/recipe/RecipeGrid";
+import { Category } from "@/types/meal";
 import Link from "next/link";
 
-const RecipeGrid = lazy(() =>
-  import("@/components/recipe/RecipeGrid").then((m) => ({ default: m.RecipeGrid }))
-);
+interface Props {
+  categories: Category[];
+}
 
-export function HomeClient() {
+export function HomeClient({ categories }: Props) {
   const [query, setQuery] = useState("");
 
   return (
     <>
-      {/* Hero */}
       <div className="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 border-b border-orange-100 overflow-hidden">
         <div className="absolute -top-10 -right-10 w-64 h-64 bg-orange-200 rounded-full opacity-20 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-amber-200 rounded-full opacity-20 blur-3xl pointer-events-none" />
@@ -47,11 +47,8 @@ export function HomeClient() {
         </div>
       </div>
 
-      {/* Content */}
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <Suspense fallback={<SkeletonGrid />}>
-          <RecipeGrid hideSearch externalQuery={query} />
-        </Suspense>
+        <RecipeGrid hideSearch externalQuery={query} categories={categories} />
       </div>
     </>
   );

@@ -5,22 +5,17 @@ import { SkeletonGrid } from "@/components/ui/Skeleton";
 import { RecipeCard } from "@/components/recipe/RecipeCard";
 import { SearchBar } from "@/components/recipe/SearchBar";
 import { CategoryFilter } from "@/components/recipe/CategoryFilter";
-import { getCategories } from "@/lib/mealdb";
-import { useEffect, useState } from "react";
 import { Category } from "@/types/meal";
 
 interface Props {
   hideSearch?: boolean;
   externalQuery?: string;
+  categories: Category[];
 }
 
-export function RecipeGrid({ hideSearch = false, externalQuery }: Props) {
-  const { meals, isLoading, error, search, filterByCategory, activeCategory, searchQuery } = useMeals(externalQuery);
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    getCategories().then(setCategories);
-  }, []);
+export function RecipeGrid({ hideSearch = false, externalQuery, categories }: Props) {
+  const { meals, isLoading, error, search, filterByCategory, activeCategory, searchQuery } =
+    useMeals(externalQuery);
 
   return (
     <div className="space-y-5">

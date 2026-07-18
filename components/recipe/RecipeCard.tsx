@@ -1,6 +1,6 @@
 "use client";
 
-import { useFavorites } from "@/hooks/useFavorites";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import { MealSummary } from "@/types/meal";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,19 +28,14 @@ export function RecipeCard({ meal, priority = false }: Props) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
       </Link>
 
-      {/* Bookmark button */}
       <button
-        onClick={(e) => {
-          e.preventDefault();
-          toggleFavorite(meal);
-        }}
+        onClick={() => toggleFavorite(meal)}
         className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 bg-black/30 backdrop-blur-sm hover:bg-black/50"
         aria-label={favorited ? "Hapus dari favorit" : "Simpan ke favorit"}
       >
         <span className="text-sm">{favorited ? "❤️" : "🤍"}</span>
       </button>
 
-      {/* Title */}
       <div className="absolute bottom-0 left-0 right-0 p-3 z-0">
         <h3 className="text-white font-semibold text-sm leading-snug line-clamp-2 drop-shadow">
           {meal.strMeal}
@@ -48,4 +43,4 @@ export function RecipeCard({ meal, priority = false }: Props) {
       </div>
     </div>
   );
-}
+} 
