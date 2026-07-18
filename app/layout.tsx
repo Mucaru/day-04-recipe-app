@@ -4,6 +4,7 @@ import "./globals.css";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { FavoritesProvider } from "@/contexts/FavoritesContext";
 import { ToastProvider } from "@/components/ui/Toast";
+import { Footer } from "@/components/ui/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -44,6 +45,7 @@ export default function RootLayout({
         <FavoritesProvider>
           <ToastProvider>
             {children}
+            <Footer />
             <ScrollToTop />
           </ToastProvider>
         </FavoritesProvider>
