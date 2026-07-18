@@ -42,13 +42,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.themealdb.com" />
       </head>
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+      <ToastProvider>
         <FavoritesProvider>
-          <ToastProvider>
-            {children}
-            <Footer />
-            <ScrollToTop />
-          </ToastProvider>
-        </FavoritesProvider>
+          {children}
+          <Footer />
+        <ScrollToTop />
+      </FavoritesProvider>
+    </ToastProvider>
       </body>
     </html>
   );
