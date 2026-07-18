@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RelatedRecipes } from "@/components/recipe/RelatedRecipe";
+import { FavoriteButton } from "@/components/recipe/FavoriteButton";
 import { ShareButton } from "@/components/ui/ShareButton";
+
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -77,6 +79,12 @@ export default async function RecipeDetailPage({ params }: Props) {
             <h1 className="text-2xl md:text-3xl font-bold text-white drop-shadow-md leading-tight">
               {meal.strMeal}
             </h1>
+              {/* Favorite button */}
+              <FavoriteButton meal={{
+                idMeal: meal.idMeal,
+                strMeal: meal.strMeal,
+                strMealThumb: meal.strMealThumb,
+              }} />
           </div>
         </div>
       </div>
