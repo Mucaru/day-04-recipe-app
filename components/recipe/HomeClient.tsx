@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import { SearchBar } from "@/components/recipe/SearchBar";
-import { RecipeGrid } from "@/components/recipe/RecipeGrid";
+import { SkeletonGrid } from "@/components/ui/Skeleton";
 import Link from "next/link";
+
+const RecipeGrid = lazy(() =>
+  import("@/components/recipe/RecipeGrid").then((m) => ({ default: m.RecipeGrid }))
+);
 
 export function HomeClient() {
   const [query, setQuery] = useState("");
@@ -45,7 +49,9 @@ export function HomeClient() {
 
       {/* Content */}
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <RecipeGrid hideSearch externalQuery={query} />
+        <Suspense fallback={<SkeletonGrid />}>
+          <RecipeGrid hideSearch externalQuery={query} />
+        </Suspense>
       </div>
     </>
   );
