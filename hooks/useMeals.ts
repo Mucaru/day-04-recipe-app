@@ -32,7 +32,7 @@ export function useMeals(externalQuery?: string): UseMealsReturn {
       } else if (category !== "All") {
         data = await getMealsByCategory(category);
       } else {
-        data = await getRandomMeals(12);
+        data = await getRandomMeals();
       }
       setMeals(data);
     } catch {
