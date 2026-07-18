@@ -16,11 +16,12 @@ export function Toast({ message, type = "success", onClose }: ToastProps) {
 
   return (
     <div
-        className={`fixed bottom-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl shadow-lg text-white text-sm font-medium animate-fade-in whitespace-nowrap ${
-            type === "success" ? "bg-gray-900" : "bg-orange-500"
-        }`}
-        >
-        {message}
+    style={{ left: "50%", transform: "translateX(-50%)" }}
+    className={`fixed bottom-20 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl shadow-lg text-white text-sm font-medium animate-fade-in whitespace-nowrap ${
+        type === "success" ? "bg-gray-900" : "bg-orange-500"
+    }`}
+    >
+    {message}
     </div>
   );
 }
