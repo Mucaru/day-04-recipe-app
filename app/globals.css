@@ -22,10 +22,10 @@
     animation: fadeIn 0.2s ease-out;
   }
 
-  @keyframes fadeIn {
+  @keyframes toastSlideUp {
     from {
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;

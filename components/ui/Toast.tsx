@@ -1,33 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
-interface ToastProps {
+interface ToastData {
   message: string;
-  type?: "success" | "info";
-  onClose: () => void;
+  type: "success" | "info";
+  id: number;
 }
-
-export function Toast({ message, type = "success", onClose }: ToastProps) {
-  useEffect(() => {
-    const timer = setTimeout(onClose, 2500);
-    return () => clearTimeout(timer);
-  }, [onClose]);
-
-  return (
-    <div
-    style={{ left: "50%", transform: "translateX(-50%)" }}
-    className={`fixed bottom-20 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl shadow-lg text-white text-sm font-medium animate-fade-in whitespace-nowrap ${
-        type === "success" ? "bg-gray-900" : "bg-orange-500"
-    }`}
-    >
-    {message}
-    </div>
-  );
-}
-
-// Toast manager — simpan di context
-import { createContext, useCallback, useContext, useRef } from "react";
 
 interface ToastContextType {
   showToast: (message: string, type?: "success" | "info") => void;
@@ -35,26 +14,57 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType>({ showToast: () => {} });
 
+function ToastItem({ message, type, onClose }: ToastData & { onClose: () => void }) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 2500);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div
+      className={`flex items-center gap-2 px-5 py-3 rounded-2xl shadow-xl text-white text-sm font-medium whitespace-nowrap pointer-events-none ${
+        type === "success" ? "bg-gray-900" : "bg-orange-500"
+      }`}
+      style={{
+        animation: "toastSlideUp 0.25s ease-out forwards",
+      }}
+    >
+      {message}
+    </div>
+  );
+}
+
 export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toast, setToast] = useState<{ message: string; type: "success" | "info" } | null>(null);
+  const [toast, setToast] = useState<ToastData | null>(null);
   const idRef = useRef(0);
 
   const showToast = useCallback((message: string, type: "success" | "info" = "success") => {
     idRef.current += 1;
-    setToast({ message, type });
+    setToast({ message, type, id: idRef.current });
   }, []);
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {toast && (
-        <Toast
-          key={idRef.current}
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
+      {/* Portal-style fixed container */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: "80px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 9999,
+          pointerEvents: "none",
+        }}
+      >
+        {toast && (
+          <ToastItem
+            key={toast.id}
+            {...toast}
+            onClose={() => setToast(null)}
+          />
+        )}
+      </div>
     </ToastContext.Provider>
   );
 }
