@@ -34,8 +34,7 @@ export async function getCategories(): Promise<Category[]> {
   return data.categories ?? [];
 }
 
-export async function getRandomMeals(count = 12): Promise<MealSummary[]> {
-  // Ambil semua meals dari kategori random, jauh lebih efisien dari 12 request
+export async function getRandomMeals(count = 8): Promise<MealSummary[]> {
   const categories = ["Chicken", "Beef", "Seafood", "Pasta", "Vegetarian", "Dessert"];
   const randomCat = categories[Math.floor(Math.random() * categories.length)];
   const res = await fetch(`${BASE_URL}/filter.php?c=${randomCat}`, {
@@ -43,7 +42,5 @@ export async function getRandomMeals(count = 12): Promise<MealSummary[]> {
   });
   const data = await res.json();
   const meals: MealSummary[] = data.meals ?? [];
-
-  // Shuffle dan ambil 12
   return meals.sort(() => Math.random() - 0.5).slice(0, count);
 }
