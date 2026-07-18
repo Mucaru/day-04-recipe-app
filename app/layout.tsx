@@ -36,6 +36,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id">
+      <head>
+        <link rel="preconnect" href="https://www.themealdb.com" />
+      </head>
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
         <FavoritesProvider>
           {children}

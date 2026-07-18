@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
         hostname: "www.themealdb.com",
       },
     ],
+    formats: ["image/webp"],
+    minimumCacheTTL: 3600,
+    qualities: [60, 75, 85],
   },
 };
 
