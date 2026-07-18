@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { FavoritesProvider } from "@/contexts/FavoritesContext";
+import { ToastProvider } from "@/components/ui/Toast";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -41,8 +42,10 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
         <FavoritesProvider>
-          {children}
-          <ScrollToTop />
+          <ToastProvider>
+            {children}
+            <ScrollToTop />
+          </ToastProvider>
         </FavoritesProvider>
       </body>
     </html>

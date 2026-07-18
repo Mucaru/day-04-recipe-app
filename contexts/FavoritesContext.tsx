@@ -2,6 +2,7 @@
 
 import { MealSummary } from "@/types/meal";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { useToast } from "@/components/ui/Toast";
 
 const STORAGE_KEY = "resepku-favorites";
 
@@ -40,22 +41,29 @@ const FavoritesContext = createContext<FavoritesContextType>({
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<MealSummary[]>([]);
   const [mounted, setMounted] = useState(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     setMounted(true);
     setFavorites(readStorage());
   }, []);
 
-  const toggleFavorite = useCallback((meal: MealSummary) => {
-    setFavorites((prev) => {
-      const exists = prev.some((m) => m.idMeal === meal.idMeal);
-      const next = exists
-        ? prev.filter((m) => m.idMeal !== meal.idMeal)
-        : [...prev, meal];
-      writeStorage(next);
-      return next;
-    });
-  }, []);
+  const toggleFavorite = useCallback(
+    (meal: MealSummary) => {
+      setFavorites((prev) => {
+        const exists = prev.some((m) => m.idMeal === meal.idMeal);
+        const next = exists
+          ? prev.filter((m) => m.idMeal !== meal.idMeal)
+          : [...prev, meal];
+        writeStorage(next);
+        showToast(
+          exists ? "Dihapus dari favorit" : "❤️ Disimpan ke favorit!"
+        );
+        return next;
+      });
+    },
+    [showToast]
+  );
 
   const isFavorite = useCallback(
     (idMeal: string) => favorites.some((m) => m.idMeal === idMeal),
