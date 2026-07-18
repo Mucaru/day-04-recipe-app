@@ -56,7 +56,7 @@ export function RecipeGrid({ hideSearch = false, externalQuery, categories }: Pr
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {meals.map((meal, index) => (
-            <RecipeCard key={meal.idMeal} meal={meal} priority={index < 4} />
+            <RecipeCard key={meal.idMeal} meal={meal} priority={index < 4} index={index} />
           ))}
         </div>
       )}

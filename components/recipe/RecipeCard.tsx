@@ -8,14 +8,22 @@ import Link from "next/link";
 interface Props {
   meal: MealSummary;
   priority?: boolean;
+  index?: number;
 }
 
-export function RecipeCard({ meal, priority = false }: Props) {
+export function RecipeCard({ meal, priority = false, index = 0 }: Props) {
   const { toggleFavorite, isFavorite, mounted } = useFavorites();
   const favorited = mounted && isFavorite(meal.idMeal);
 
   return (
-    <div className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 aspect-[3/4] bg-gray-200">
+    <div
+      className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 aspect-[3/4] bg-gray-200"
+      style={{
+        animation: "cardFadeIn 0.4s ease-out forwards",
+        animationDelay: `${index * 60}ms`,
+        opacity: 0,
+      }}
+    >
       <Link href={`/recipes/${meal.idMeal}`} className="absolute inset-0 z-0">
         <Image
           src={meal.strMealThumb}
@@ -44,4 +52,4 @@ export function RecipeCard({ meal, priority = false }: Props) {
       </div>
     </div>
   );
-} 
+}
