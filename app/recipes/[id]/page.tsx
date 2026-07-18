@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RelatedRecipes } from "@/components/recipe/RelatedRecipe";
 import { FavoriteButton } from "@/components/recipe/FavoriteButton";
+import { PrintButton } from "@/components/ui/PrintButton";
 import { ShareButton } from "@/components/ui/ShareButton";
 
 
@@ -57,13 +58,18 @@ export default async function RecipeDetailPage({ params }: Props) {
         {/* Gradient overlay bawah */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
-        {/* Back button di atas foto */}
-        <Link
-          href="/"
-          className="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-700 text-sm font-medium px-4 py-2 rounded-full shadow transition"
-        >
-          ← Kembali
-        </Link>
+        {/* Breadcrumb — gantikan back button */}
+        <div className="absolute top-4 left-4 right-4 flex items-center gap-1.5 z-10">
+          <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs text-white/80">
+            <Link href="/" className="hover:text-white transition flex items-center gap-1">
+              ← Beranda
+            </Link>
+            <span className="text-white/40">›</span>
+            <span className="text-white/60">{meal.strCategory}</span>
+            <span className="text-white/40">›</span>
+            <span className="text-white line-clamp-1 max-w-32 md:max-w-64">{meal.strMeal}</span>
+          </div>
+        </div>
 
         {/* Title di bawah foto */}
         <div className="absolute bottom-0 left-0 right-0 px-4 md:px-8 pb-6">
@@ -154,9 +160,11 @@ export default async function RecipeDetailPage({ params }: Props) {
             </a>
           </section>
         )}
-        {/* Share */}
-        <section className="flex items-center gap-3">
+
+        {/* Share + Print */}
+        <section className="flex items-center gap-3 flex-wrap">
           <ShareButton />
+          <PrintButton />
         </section>
         {/* Related Recipes */}
         <RelatedRecipes category={meal.strCategory} currentId={meal.idMeal} />

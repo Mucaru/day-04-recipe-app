@@ -52,3 +52,28 @@
     display: none;
   }
 }
+
+@media print {
+  /* Sembunyikan elemen yang tidak perlu */
+  nav,
+  button,
+  .no-print,
+  footer {
+    display: none !important;
+  }
+
+  /* Hero image lebih kecil saat print */
+  .print-hero {
+    height: 200px !important;
+  }
+
+  /* Pastikan konten full width */
+  body {
+    background: white !important;
+  }
+
+  /* Steps jangan terpotong antar halaman */
+  li {
+    break-inside: avoid;
+  }
+}
